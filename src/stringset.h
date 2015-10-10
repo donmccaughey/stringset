@@ -76,11 +76,12 @@ stringset_remove_array(struct stringset *stringset,
  * Union operations *
  ********************/
 
-// Allocate a string set that is the union of two string sets.
+// Allocate a string set that is the union of two string sets.  The resulting
+// `stringset' will contain all members of `first' and `second'.
 int
 stringset_alloc_union(struct stringset **stringset,
-                      struct stringset const *first_other,
-                      struct stringset const *second_other);
+                      struct stringset const *first,
+                      struct stringset const *second);
 
 // Add all members of another string set to a string set.  The resulting
 // `stringset' will be the union of the original `stringset' and `other'.
@@ -92,6 +93,14 @@ stringset_add_stringset(struct stringset *stringset,
 /*************************
  * Difference operations *
  *************************/
+
+// Allocate a string set that is the difference of two string sets.
+// The resulting `stringset' will contain only members of `first' that are
+// not members of `second'.
+int
+stringset_alloc_difference(struct stringset **stringset,
+                           struct stringset const *first,
+                           struct stringset const *second);
 
 // Remove all members of another string set from a string set.  The resulting
 // `stringset' will be the difference of the original `stringset' and `other'.

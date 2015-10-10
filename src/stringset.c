@@ -64,20 +64,44 @@ stringset_alloc(struct stringset **stringset)
 
 
 int
-stringset_alloc_union(struct stringset **stringset,
-                      struct stringset const *first_other,
-                      struct stringset const *second_other)
+stringset_alloc_difference(struct stringset **stringset,
+                           struct stringset const *first,
+                           struct stringset const *second)
 {
     int result = stringset_alloc(stringset);
     if (-1 == result) return -1;
     
-    result = stringset_add_stringset(*stringset, first_other);
+    result = stringset_add_stringset(*stringset, first);
     if (-1 == result) {
         stringset_free(stringset);
         return -1;
     }
     
-    result = stringset_add_stringset(*stringset, second_other);
+    result = stringset_remove_stringset(*stringset, second);
+    if (-1 == result) {
+        stringset_free(stringset);
+        return -1;
+    }
+    
+    return 0;
+}
+
+
+int
+stringset_alloc_union(struct stringset **stringset,
+                      struct stringset const *first,
+                      struct stringset const *second)
+{
+    int result = stringset_alloc(stringset);
+    if (-1 == result) return -1;
+    
+    result = stringset_add_stringset(*stringset, first);
+    if (-1 == result) {
+        stringset_free(stringset);
+        return -1;
+    }
+    
+    result = stringset_add_stringset(*stringset, second);
     if (-1 == result) {
         stringset_free(stringset);
         return -1;
