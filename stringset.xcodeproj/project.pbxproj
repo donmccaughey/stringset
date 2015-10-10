@@ -41,6 +41,8 @@
 		D42817141BC73D990097BED1 /* stringset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stringset.c; sourceTree = "<group>"; };
 		D42817151BC73D990097BED1 /* stringset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringset.h; sourceTree = "<group>"; };
 		D428171C1BC73EFD0097BED1 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D431EB5E1BC899A8005FC10A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		D431EB5F1BC899A8005FC10A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,8 @@
 		D42816F71BC73CF20097BED1 = {
 			isa = PBXGroup;
 			children = (
+				D431EB5E1BC899A8005FC10A /* LICENSE */,
+				D431EB5F1BC899A8005FC10A /* README.md */,
 				D42817071BC73D480097BED1 /* src */,
 				D428171B1BC73EFD0097BED1 /* tests */,
 				D42817011BC73CF20097BED1 /* Products */,
@@ -335,6 +339,7 @@
 				D42817061BC73CF20097BED1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D42817111BC73D770097BED1 /* Build configuration list for PBXNativeTarget "tests" */ = {
 			isa = XCConfigurationList;
@@ -343,6 +348,7 @@
 				D42817131BC73D770097BED1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
