@@ -19,6 +19,10 @@ struct stringset {
 struct stringset *
 stringset_alloc(void);
 
+// Allocate a set from an array.
+struct stringset *
+stringset_alloc_from_array(char const *const *array, int count);
+
 // Delete all members and free an allocated string set.
 void
 stringset_free(struct stringset *stringset);

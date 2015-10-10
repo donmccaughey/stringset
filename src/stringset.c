@@ -81,6 +81,27 @@ stringset_alloc_difference(struct stringset const *first,
 
 
 struct stringset *
+stringset_alloc_from_array(char const *const *array, int count)
+{
+    if (!array || count < 0) {
+        errno = EINVAL;
+        return NULL;
+    }
+    
+    struct stringset *stringset = stringset_alloc();
+    if (!stringset) return NULL;
+    
+    int result = stringset_add_array(stringset, array, count);
+    if (-1 == result) {
+        stringset_free(stringset);
+        return NULL;
+    }
+    
+    return stringset;
+}
+
+
+struct stringset *
 stringset_alloc_union(struct stringset const *first,
                       struct stringset const *second)
 {

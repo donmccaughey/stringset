@@ -119,25 +119,14 @@ test_members_are_sorted(void)
 void
 test_remove(void)
 {
-    struct stringset *set = stringset_alloc();
+    char const *members[] = {
+        "watermelon", "mango", "apple", "banana", "strawberry"
+    };
+    int members_count = sizeof members / sizeof members[0];
+    struct stringset *set = stringset_alloc_from_array(members, members_count);
     assert(set);
     
-    int result = stringset_add(set, "watermelon");
-    assert(0 == result);
-    
-    result = stringset_add(set, "mango");
-    assert(0 == result);
-    
-    result = stringset_add(set, "apple");
-    assert(0 == result);
-    
-    result = stringset_add(set, "banana");
-    assert(0 == result);
-    
-    result = stringset_add(set, "strawberry");
-    assert(0 == result);
-    
-    result = stringset_remove(set, "banana");
+    int result = stringset_remove(set, "banana");
     assert(0 == result);
     assert(4 == set->count);
     assert(!stringset_contains(set, "banana"));
@@ -223,29 +212,22 @@ test_add_array(void)
 void
 test_add_stringset(void)
 {
-    struct stringset *set1 = stringset_alloc();
-    assert(set1);
-    
     char const *members1[] = {
         "watermelon", "mango", "apple", "banana", "strawberry"
     };
     int members1_count = sizeof members1 / sizeof members1[0];
-    
-    int result = stringset_add_array(set1, members1, members1_count);
-    assert(0 == result);
-
-    struct stringset *set2 = stringset_alloc();
-    assert(set2);
+    struct stringset *set1 = stringset_alloc_from_array(members1, members1_count);
+    assert(set1);
     
     char const *members2[] = {
         "red", "green", "blue"
     };
     int members2_count = sizeof members2 / sizeof members2[0];
+    struct stringset *set2 = stringset_alloc_from_array(members2, members2_count);
+    assert(set2);
     
-    result = stringset_add_array(set2, members2, members2_count);
+    int result = stringset_add_stringset(set1, set2);
     assert(0 == result);
-    
-    result = stringset_add_stringset(set1, set2);
     
     assert(8 == set1->count);
     
@@ -266,29 +248,22 @@ test_add_stringset(void)
 void
 test_alloc_union(void)
 {
-    struct stringset *set1 = stringset_alloc();
-    assert(set1);
-    
     char const *members1[] = {
         "watermelon", "mango", "apple", "banana", "strawberry"
     };
     int members1_count = sizeof members1 / sizeof members1[0];
-    
-    int result = stringset_add_array(set1, members1, members1_count);
-    assert(0 == result);
-    
-    struct stringset *set2 = stringset_alloc();
-    assert(set2);
+    struct stringset *set1 = stringset_alloc_from_array(members1, members1_count);
+    assert(set1);
     
     char const *members2[] = {
         "red", "green", "blue"
     };
     int members2_count = sizeof members2 / sizeof members2[0];
-    
-    result = stringset_add_array(set2, members2, members2_count);
-    assert(0 == result);
+    struct stringset *set2 = stringset_alloc_from_array(members2, members2_count);
+    assert(set2);
     
     struct stringset *set3 = stringset_alloc_union(set1, set2);
+    assert(set3);
     
     assert(8 == set3->count);
     
@@ -310,23 +285,19 @@ test_alloc_union(void)
 void
 test_remove_array(void)
 {
-    struct stringset *set = stringset_alloc();
-    assert(set);
-    
     char const *members[] = {
         "watermelon", "mango", "apple", "banana", "strawberry"
     };
     int members_count = sizeof members / sizeof members[0];
-    
-    int result = stringset_add_array(set, members, members_count);
-    assert(0 == result);
+    struct stringset *set = stringset_alloc_from_array(members, members_count);
+    assert(set);
     
     char const *array[] = {
         "mango", "green", "banana"
     };
     int array_count = sizeof array / sizeof array[0];
     
-    result = stringset_remove_array(set, array, array_count);
+    int result = stringset_remove_array(set, array, array_count);
     assert(0 == result);
     
     assert(3 == set->count);
@@ -342,29 +313,22 @@ test_remove_array(void)
 void
 test_remove_stringset(void)
 {
-    struct stringset *set1 = stringset_alloc();
-    assert(set1);
-    
     char const *members1[] = {
         "watermelon", "mango", "apple", "banana", "strawberry"
     };
     int members1_count = sizeof members1 / sizeof members1[0];
-    
-    int result = stringset_add_array(set1, members1, members1_count);
-    assert(0 == result);
-    
-    struct stringset *set2 = stringset_alloc();
-    assert(set2);
+    struct stringset *set1 = stringset_alloc_from_array(members1, members1_count);
+    assert(set1);
     
     char const *members2[] = {
         "mango", "green", "banana"
     };
     int members2_count = sizeof members2 / sizeof members2[0];
+    struct stringset *set2 = stringset_alloc_from_array(members2, members2_count);
+    assert(set2);
     
-    result = stringset_add_array(set2, members2, members2_count);
+    int result = stringset_remove_stringset(set1, set2);
     assert(0 == result);
-    
-    result = stringset_remove_stringset(set1, set2);
     
     assert(3 == set1->count);
     
@@ -380,29 +344,22 @@ test_remove_stringset(void)
 void
 test_alloc_difference(void)
 {
-    struct stringset *set1 = stringset_alloc();
-    assert(set1);
-    
     char const *members1[] = {
         "watermelon", "mango", "apple", "banana", "strawberry"
     };
     int members1_count = sizeof members1 / sizeof members1[0];
-    
-    int result = stringset_add_array(set1, members1, members1_count);
-    assert(0 == result);
-    
-    struct stringset *set2 = stringset_alloc();
-    assert(set2);
+    struct stringset *set1 = stringset_alloc_from_array(members1, members1_count);
+    assert(set1);
     
     char const *members2[] = {
         "mango", "green", "banana"
     };
     int members2_count = sizeof members2 / sizeof members2[0];
-    
-    result = stringset_add_array(set2, members2, members2_count);
-    assert(0 == result);
+    struct stringset *set2 = stringset_alloc_from_array(members2, members2_count);
+    assert(set2);
     
     struct stringset *set3 = stringset_alloc_difference(set1, set2);
+    assert(set3);
     
     assert(3 == set3->count);
     
@@ -419,38 +376,26 @@ test_alloc_difference(void)
 void
 test_is_subset_of(void)
 {
-    struct stringset *set1 = stringset_alloc();
-    assert(set1);
-    
     char const *members1[] = {
         "watermelon", "mango", "apple", "banana", "strawberry"
     };
     int members1_count = sizeof members1 / sizeof members1[0];
-    
-    int result = stringset_add_array(set1, members1, members1_count);
-    assert(0 == result);
-    
-    struct stringset *set2 = stringset_alloc();
-    assert(set2);
+    struct stringset *set1 = stringset_alloc_from_array(members1, members1_count);
+    assert(set1);
     
     char const *members2[] = {
         "mango", "green", "banana"
     };
     int members2_count = sizeof members2 / sizeof members2[0];
-    
-    result = stringset_add_array(set2, members2, members2_count);
-    assert(0 == result);
-    
-    struct stringset *set3 = stringset_alloc();
-    assert(set3);
+    struct stringset *set2 = stringset_alloc_from_array(members2, members2_count);
+    assert(set2);
     
     char const *members3[] = {
         "mango", "watermelon", "banana"
     };
     int members3_count = sizeof members3 / sizeof members3[0];
-    
-    result = stringset_add_array(set3, members3, members3_count);
-    assert(0 == result);
+    struct stringset *set3 = stringset_alloc_from_array(members3, members3_count);
+    assert(set3);
     
     assert(!stringset_is_subset_of(set1, set2));
     assert(!stringset_is_subset_of(set1, set3));
