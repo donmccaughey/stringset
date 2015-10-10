@@ -6,6 +6,22 @@
 
 
 static int
+add_array(struct stringset *stringset,
+          char const *const *array,
+          int count)
+{
+    if (!count) return 0;
+    
+    for (int i = 0; i < count; ++i) {
+        int result = stringset_add(stringset, array[i]);
+        if (-1 == result) return -1;
+    }
+    
+    return 0;
+}
+
+
+static int
 compare_strings(void const *first, void const *second)
 {
     char *const *first_string = first;
@@ -114,14 +130,7 @@ stringset_add_array(struct stringset *stringset,
         return -1;
     }
     
-    if (!count) return 0;
-    
-    for (int i = 0; i < count; ++i) {
-        int result = stringset_add(stringset, array[i]);
-        if (-1 == result) return -1;
-    }
-    
-    return 0;
+    return add_array(stringset, array, count);
 }
 
 
@@ -134,14 +143,9 @@ stringset_add_stringset(struct stringset *stringset,
         return -1;
     }
     
-    if (!other->count) return 0;
-    
-    for (int i = 0; i < other->count; ++i) {
-        int result = stringset_add(stringset, other->members[i]);
-        if (-1 == result) return -1;
-    }
-    
-    return 0;
+    return add_array(stringset,
+                     (char const *const *)other->members,
+                     other->count);
 }
 
 
