@@ -5,6 +5,15 @@
 #include <string.h>
 
 
+static int
+compare_strings(void const *first, void const *second)
+{
+    char * const *first_string = first;
+    char * const *second_string = second;
+    return strcmp(*first_string, *second_string);
+}
+
+
 int
 stringset_alloc(struct stringset **stringset)
 {
@@ -58,6 +67,12 @@ stringset_add(struct stringset *stringset, char const *string)
     if (!stringset->members[new_index]) return -1;
     
     stringset->count = new_count;
+    
+    qsort(stringset->members,
+          stringset->count,
+          sizeof(char *),
+          compare_strings);
+    
     return 0;
 }
 
@@ -70,9 +85,10 @@ stringset_contains(struct stringset *stringset, char const *string)
         return false;
     }
     
-    for (int i = 0; i < stringset->count; ++i) {
-        if (0 == strcmp(string, stringset->members[i])) return true;
-    }
-    
-    return false;
+    void *member = bsearch(&string,
+                           stringset->members,
+                           stringset->count,
+                           sizeof(char *),
+                           compare_strings);
+    return member ? true : false;
 }

@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "stringset.h"
 
@@ -88,6 +89,40 @@ test_add_one_hundred_members(void)
 }
 
 
+void
+test_members_are_sorted(void)
+{
+    struct stringset *set;
+    int result = stringset_alloc(&set);
+    assert(0 == result);
+    
+    result = stringset_add(set, "watermelon");
+    assert(0 == result);
+    
+    result = stringset_add(set, "mango");
+    assert(0 == result);
+    
+    result = stringset_add(set, "apple");
+    assert(0 == result);
+    
+    result = stringset_add(set, "banana");
+    assert(0 == result);
+    
+    result = stringset_add(set, "strawberry");
+    assert(0 == result);
+    
+    assert(5 == set->count);
+    
+    assert(0 == strcmp("apple", set->members[0]));
+    assert(0 == strcmp("banana", set->members[1]));
+    assert(0 == strcmp("mango", set->members[2]));
+    assert(0 == strcmp("strawberry", set->members[3]));
+    assert(0 == strcmp("watermelon", set->members[4]));
+    
+    stringset_free(&set);
+}
+
+
 int
 main(int argc, char *argv[])
 {
@@ -95,5 +130,6 @@ main(int argc, char *argv[])
     test_add_one_member();
     test_add_same_member_multiple_times();
     test_add_one_hundred_members();
+    test_members_are_sorted();
     return EXIT_SUCCESS;
 }
