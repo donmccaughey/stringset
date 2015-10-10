@@ -87,20 +87,6 @@ stringset_alloc_union(struct stringset **stringset,
 }
 
 
-void
-stringset_free(struct stringset **stringset)
-{
-    if (!stringset) return;
-    
-    if (*stringset) {
-        stringset_clear(*stringset);
-        free(*stringset);
-    }
-    
-    *stringset = NULL;
-}
-
-
 int
 stringset_add(struct stringset *stringset, char const *string)
 {
@@ -215,6 +201,20 @@ stringset_contains(struct stringset const *stringset, char const *string)
                           sizeof(char *),
                           compare_strings);
     return found ? true : false;
+}
+
+
+void
+stringset_free(struct stringset **stringset)
+{
+    if (!stringset) return;
+    
+    if (*stringset) {
+        stringset_clear(*stringset);
+        free(*stringset);
+    }
+    
+    *stringset = NULL;
 }
 
 
