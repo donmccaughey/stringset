@@ -106,7 +106,7 @@ stringset_add(struct stringset *stringset, char const *string)
 
 int
 stringset_add_array(struct stringset *stringset,
-                    char const **array,
+                    char const *const *array,
                     int count)
 {
     if (!stringset || !array || count < 0) {
