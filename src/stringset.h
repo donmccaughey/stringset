@@ -21,6 +21,15 @@ int
 stringset_add(struct stringset *stringset, char const *string);
 
 int
+stringset_add_array(struct stringset *stringset,
+                    char const **array,
+                    int count);
+
+int
+stringset_add_stringset(struct stringset *stringset,
+                        struct stringset const *other_stringset);
+
+int
 stringset_clear(struct stringset *stringset);
 
 int

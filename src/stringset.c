@@ -81,6 +81,47 @@ stringset_add(struct stringset *stringset, char const *string)
 
 
 int
+stringset_add_array(struct stringset *stringset,
+                    char const **array,
+                    int count)
+{
+    if (!stringset || !array || count < 0) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    if (!count) return 0;
+    
+    for (int i = 0; i < count; ++i) {
+        int result = stringset_add(stringset, array[i]);
+        if (-1 == result) return -1;
+    }
+    
+    return 0;
+}
+
+
+int
+stringset_add_stringset(struct stringset *stringset,
+                        struct stringset const *other_stringset)
+{
+    if (!stringset || !other_stringset) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    if (!other_stringset->count) return 0;
+    
+    for (int i = 0; i < other_stringset->count; ++i) {
+        int result = stringset_add(stringset, other_stringset->members[i]);
+        if (-1 == result) return -1;
+    }
+    
+    return 0;
+}
+
+
+int
 stringset_clear(struct stringset *stringset)
 {
     if (!stringset) {
