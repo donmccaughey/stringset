@@ -50,64 +50,56 @@ remove_array(struct stringset *stringset,
 }
 
 
-int
-stringset_alloc(struct stringset **stringset)
+struct stringset *
+stringset_alloc(void)
 {
-    if (!stringset) {
-        errno = EINVAL;
-        return -1;
-    }
-    
-    *stringset = calloc(1, sizeof(struct stringset));
-    return *stringset ? 0 : -1;
+    return calloc(1, sizeof(struct stringset));
 }
 
 
-int
-stringset_alloc_difference(struct stringset **stringset,
-                           struct stringset const *first,
+struct stringset *
+stringset_alloc_difference(struct stringset const *first,
                            struct stringset const *second)
 {
-    int result = stringset_alloc(stringset);
-    if (-1 == result) return -1;
+    struct stringset *stringset = stringset_alloc();
+    if (!stringset) return NULL;
     
-    result = stringset_add_stringset(*stringset, first);
+    int result = stringset_add_stringset(stringset, first);
     if (-1 == result) {
         stringset_free(stringset);
-        return -1;
+        return NULL;
     }
     
-    result = stringset_remove_stringset(*stringset, second);
+    result = stringset_remove_stringset(stringset, second);
     if (-1 == result) {
         stringset_free(stringset);
-        return -1;
+        return NULL;
     }
     
-    return 0;
+    return stringset;
 }
 
 
-int
-stringset_alloc_union(struct stringset **stringset,
-                      struct stringset const *first,
+struct stringset *
+stringset_alloc_union(struct stringset const *first,
                       struct stringset const *second)
 {
-    int result = stringset_alloc(stringset);
-    if (-1 == result) return -1;
+    struct stringset *stringset = stringset_alloc();
+    if (!stringset) return NULL;
     
-    result = stringset_add_stringset(*stringset, first);
+    int result = stringset_add_stringset(stringset, first);
     if (-1 == result) {
         stringset_free(stringset);
-        return -1;
+        return NULL;
     }
     
-    result = stringset_add_stringset(*stringset, second);
+    result = stringset_add_stringset(stringset, second);
     if (-1 == result) {
         stringset_free(stringset);
-        return -1;
+        return NULL;
     }
     
-    return 0;
+    return stringset;
 }
 
 
@@ -229,16 +221,12 @@ stringset_contains(struct stringset const *stringset, char const *string)
 
 
 void
-stringset_free(struct stringset **stringset)
+stringset_free(struct stringset *stringset)
 {
-    if (!stringset) return;
-    
-    if (*stringset) {
-        stringset_clear(*stringset);
-        free(*stringset);
+    if (stringset) {
+        stringset_clear(stringset);
+        free(stringset);
     }
-    
-    *stringset = NULL;
 }
 
 

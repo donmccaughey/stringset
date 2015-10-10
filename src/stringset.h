@@ -16,12 +16,12 @@ struct stringset {
  ****************************/
 
 // Allocate an empty string set.
-int
-stringset_alloc(struct stringset **stringset);
+struct stringset *
+stringset_alloc(void);
 
 // Delete all members and free an allocated string set.
 void
-stringset_free(struct stringset **stringset);
+stringset_free(struct stringset *stringset);
 
 
 /*******************
@@ -83,9 +83,8 @@ stringset_remove_array(struct stringset *stringset,
 
 // Allocate a string set that is the union of two string sets.  The resulting
 // `stringset' will contain all members of `first' and `second'.
-int
-stringset_alloc_union(struct stringset **stringset,
-                      struct stringset const *first,
+struct stringset *
+stringset_alloc_union(struct stringset const *first,
                       struct stringset const *second);
 
 // Add all members of another string set to a string set.  The resulting
@@ -102,9 +101,8 @@ stringset_add_stringset(struct stringset *stringset,
 // Allocate a string set that is the difference of two string sets.
 // The resulting `stringset' will contain only members of `first' that are
 // not members of `second'.
-int
-stringset_alloc_difference(struct stringset **stringset,
-                           struct stringset const *first,
+struct stringset *
+stringset_alloc_difference(struct stringset const *first,
                            struct stringset const *second);
 
 // Remove all members of another string set from a string set.  The resulting
