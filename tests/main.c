@@ -322,6 +322,79 @@ test_alloc_union(void)
 }
 
 
+void
+test_remove_array(void)
+{
+    struct stringset *set;
+    int result = stringset_alloc(&set);
+    assert(0 == result);
+    
+    char const *members[] = {
+        "watermelon", "mango", "apple", "banana", "strawberry"
+    };
+    int members_count = sizeof members / sizeof members[0];
+    
+    result = stringset_add_array(set, members, members_count);
+    assert(0 == result);
+    
+    char const *array[] = {
+        "mango", "green", "banana"
+    };
+    int array_count = sizeof array / sizeof array[0];
+    
+    result = stringset_remove_array(set, array, array_count);
+    assert(0 == result);
+    
+    assert(3 == set->count);
+    
+    assert(0 == strcmp("apple", set->members[0]));
+    assert(0 == strcmp("strawberry", set->members[1]));
+    assert(0 == strcmp("watermelon", set->members[2]));
+    
+    stringset_free(&set);
+}
+
+
+void
+test_remove_stringset(void)
+{
+    struct stringset *set1;
+    int result = stringset_alloc(&set1);
+    assert(0 == result);
+    
+    char const *members1[] = {
+        "watermelon", "mango", "apple", "banana", "strawberry"
+    };
+    int members1_count = sizeof members1 / sizeof members1[0];
+    
+    result = stringset_add_array(set1, members1, members1_count);
+    assert(0 == result);
+    
+    struct stringset *set2;
+    result = stringset_alloc(&set2);
+    assert(0 == result);
+    
+    char const *members2[] = {
+        "mango", "green", "banana"
+    };
+    int members2_count = sizeof members2 / sizeof members2[0];
+    
+    result = stringset_add_array(set2, members2, members2_count);
+    assert(0 == result);
+    
+    result = stringset_remove_stringset(set1, set2);
+    
+    assert(3 == set1->count);
+    
+    assert(0 == strcmp("apple", set1->members[0]));
+    assert(0 == strcmp("strawberry", set1->members[1]));
+    assert(0 == strcmp("watermelon", set1->members[2]));
+    
+    stringset_free(&set1);
+    stringset_free(&set2);
+}
+
+
 int
 main(int argc, char *argv[])
 {
@@ -335,5 +408,7 @@ main(int argc, char *argv[])
     test_add_array();
     test_add_stringset();
     test_alloc_union();
+    test_remove_array();
+    test_remove_stringset();
     return EXIT_SUCCESS;
 }

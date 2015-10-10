@@ -33,6 +33,23 @@ compare_strings(void const *first, void const *second)
 }
 
 
+static int
+remove_array(struct stringset *stringset,
+             char const *const *array,
+             int count)
+{
+    for (int i = 0; i < count; ++i) {
+        int result = stringset_remove(stringset, array[i]);
+        if (-1 == result) return -1;
+    }
+    
+    int result = stringset_compact(stringset);
+    if (-1 == result) return -1;
+    
+    return 0;
+}
+
+
 int
 stringset_alloc(struct stringset **stringset)
 {
@@ -226,4 +243,33 @@ stringset_remove(struct stringset *stringset, char const *string)
     }
     
     return 0;
+}
+
+
+int
+stringset_remove_array(struct stringset *stringset,
+                       char const *const *array,
+                       int count)
+{
+    if (!stringset || !array || count < 0) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    return remove_array(stringset, array, count);
+}
+
+
+int
+stringset_remove_stringset(struct stringset *stringset,
+                           struct stringset const *other)
+{
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    return remove_array(stringset,
+                        (char const *const *)other->members,
+                        other->count);
 }

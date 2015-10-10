@@ -30,6 +30,7 @@ stringset_add_array(struct stringset *stringset,
                     char const *const *array,
                     int count);
 
+
 int
 stringset_add_stringset(struct stringset *stringset,
                         struct stringset const *other);
@@ -45,6 +46,15 @@ stringset_contains(struct stringset const *stringset, char const *string);
 
 int
 stringset_remove(struct stringset *stringset, char const *string);
+
+int
+stringset_remove_array(struct stringset *stringset,
+                       char const *const *array,
+                       int count);
+
+int
+stringset_remove_stringset(struct stringset *stringset,
+                           struct stringset const *other);
 
 
 #endif
