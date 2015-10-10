@@ -263,6 +263,14 @@ stringset_is_subset_of(struct stringset const *stringset,
 }
 
 
+bool
+stringset_is_superset_of(struct stringset const *stringset,
+                         struct stringset const *other)
+{
+    return stringset_is_subset_of(other, stringset);
+}
+
+
 int
 stringset_remove(struct stringset *stringset, char const *string)
 {

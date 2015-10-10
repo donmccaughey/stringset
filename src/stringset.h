@@ -41,6 +41,11 @@ bool
 stringset_is_subset_of(struct stringset const *stringset,
                        struct stringset const *other);
 
+// Check if a string set is a superset of another string set.
+bool
+stringset_is_superset_of(struct stringset const *stringset,
+                         struct stringset const *other);
+
 
 /*****************************
  * Insert and delete members *
