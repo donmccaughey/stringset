@@ -252,6 +252,32 @@ stringset_free(struct stringset *stringset)
 
 
 bool
+stringset_is_disjoint_from(struct stringset const *stringset,
+                           struct stringset const *other)
+{
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return false;
+    }
+    
+    struct stringset const *smaller;
+    struct stringset const *larger;
+    if (stringset->count < other->count) {
+        smaller = stringset;
+        larger = other;
+    } else {
+        smaller = other;
+        larger = stringset;
+    }
+    
+    for (int i = 0; i < smaller->count; ++i) {
+        if (stringset_contains(larger, smaller->members[i])) return false;
+    }
+    return true;
+}
+
+
+bool
 stringset_is_equal_to(struct stringset const *stringset,
                       struct stringset const *other)
 {
