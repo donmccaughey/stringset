@@ -252,9 +252,28 @@ stringset_free(struct stringset *stringset)
 
 
 bool
+stringset_is_equal_to(struct stringset const *stringset,
+                      struct stringset const *other)
+{
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return false;
+    }
+    
+    if (stringset->count != other->count) return false;
+    return stringset_is_subset_of(stringset, other);
+}
+
+
+bool
 stringset_is_subset_of(struct stringset const *stringset,
                        struct stringset const *other)
 {
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return false;
+    }
+    
     for (int i = 0; i < stringset->count; ++i) {
         if (!stringset_contains(other, stringset->members[i])) return false;
     }

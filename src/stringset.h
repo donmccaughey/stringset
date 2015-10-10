@@ -36,6 +36,11 @@ stringset_free(struct stringset *stringset);
 bool
 stringset_contains(struct stringset const *stringset, char const *string);
 
+// Check that a string set contains the same members as another string set
+bool
+stringset_is_equal_to(struct stringset const *stringset,
+                      struct stringset const *other);
+
 // Check if a string set is a subset of another string set.
 bool
 stringset_is_subset_of(struct stringset const *stringset,
