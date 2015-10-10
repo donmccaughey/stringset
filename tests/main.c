@@ -123,6 +123,86 @@ test_members_are_sorted(void)
 }
 
 
+void
+test_remove(void)
+{
+    struct stringset *set;
+    int result = stringset_alloc(&set);
+    assert(0 == result);
+    
+    result = stringset_add(set, "watermelon");
+    assert(0 == result);
+    
+    result = stringset_add(set, "mango");
+    assert(0 == result);
+    
+    result = stringset_add(set, "apple");
+    assert(0 == result);
+    
+    result = stringset_add(set, "banana");
+    assert(0 == result);
+    
+    result = stringset_add(set, "strawberry");
+    assert(0 == result);
+    
+    result = stringset_remove(set, "banana");
+    assert(0 == result);
+    assert(4 == set->count);
+    assert(!stringset_contains(set, "banana"));
+    
+    result = stringset_remove(set, "watermelon");
+    assert(0 == result);
+    assert(3 == set->count);
+    assert(!stringset_contains(set, "watermelon"));
+    
+    result = stringset_remove(set, "apple");
+    assert(0 == result);
+    assert(2 == set->count);
+    assert(!stringset_contains(set, "apple"));
+    
+    result = stringset_remove(set, "mango");
+    assert(0 == result);
+    assert(1 == set->count);
+    assert(!stringset_contains(set, "mango"));
+    
+    result = stringset_remove(set, "strawberry");
+    assert(0 == result);
+    assert(0 == set->count);
+    assert(!stringset_contains(set, "strawberry"));
+    
+    result = stringset_compact(set);
+    assert(0 == result);
+    
+    stringset_free(&set);
+}
+
+
+void
+test_clear(void)
+{
+    struct stringset *set;
+    int result = stringset_alloc(&set);
+    assert(0 == result);
+    
+    for (int i = 1; i <= 100; ++i) {
+        char *string;
+        int chars_formatted = asprintf(&string, "%i", i);
+        assert(chars_formatted > 0);
+        int result = stringset_add(set, string);
+        free(string);
+        assert(0 == result);
+    }
+    
+    assert(100 == set->count);
+    
+    result = stringset_clear(set);
+    assert(0 == result);
+    assert(0 == set->count);
+    
+    stringset_free(&set);
+}
+
+
 int
 main(int argc, char *argv[])
 {
@@ -131,5 +211,7 @@ main(int argc, char *argv[])
     test_add_same_member_multiple_times();
     test_add_one_hundred_members();
     test_members_are_sorted();
+    test_remove();
+    test_clear();
     return EXIT_SUCCESS;
 }

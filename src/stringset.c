@@ -8,8 +8,11 @@
 static int
 compare_strings(void const *first, void const *second)
 {
-    char * const *first_string = first;
-    char * const *second_string = second;
+    char *const *first_string = first;
+    char *const *second_string = second;
+    if (!*first_string && !*second_string) return 0;
+    if (!*first_string) return 1;
+    if (!*second_string) return -1;
     return strcmp(*first_string, *second_string);
 }
 
@@ -77,18 +80,81 @@ stringset_add(struct stringset *stringset, char const *string)
 }
 
 
+int
+stringset_clear(struct stringset *stringset)
+{
+    if (!stringset) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    free(stringset->members);
+    stringset->count = 0;
+    stringset->members = NULL;
+    
+    return 0;
+}
+
+
+int
+stringset_compact(struct stringset *stringset)
+{
+    if (!stringset) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    size_t new_size = sizeof(char *) * stringset->count;
+    char **new_members = realloc(stringset->members, new_size);
+    if (!new_members) return -1;
+    
+    stringset->members = new_members;
+    
+    return 0;
+}
+
+
 bool
-stringset_contains(struct stringset *stringset, char const *string)
+stringset_contains(struct stringset const *stringset, char const *string)
 {
     if (!stringset || !string) {
         errno = EINVAL;
         return false;
     }
     
-    void *member = bsearch(&string,
-                           stringset->members,
-                           stringset->count,
-                           sizeof(char *),
-                           compare_strings);
-    return member ? true : false;
+    void *found = bsearch(&string,
+                          stringset->members,
+                          stringset->count,
+                          sizeof(char *),
+                          compare_strings);
+    return found ? true : false;
+}
+
+
+int
+stringset_remove(struct stringset *stringset, char const *string)
+{
+    if (!stringset || !string) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    void *found = bsearch(&string,
+                          stringset->members,
+                          stringset->count,
+                          sizeof(char *),
+                          compare_strings);
+    if (found) {
+        char **member = found;
+        *member = NULL;
+        
+        qsort(stringset->members,
+              stringset->count,
+              sizeof(char *),
+              compare_strings);
+        
+        --stringset->count;
+    }
+    
+    return 0;
 }

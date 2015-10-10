@@ -20,8 +20,17 @@ stringset_free(struct stringset **stringset);
 int
 stringset_add(struct stringset *stringset, char const *string);
 
+int
+stringset_clear(struct stringset *stringset);
+
+int
+stringset_compact(struct stringset *stringset);
+
 bool
-stringset_contains(struct stringset *stringset, char const *string);
+stringset_contains(struct stringset const *stringset, char const *string);
+
+int
+stringset_remove(struct stringset *stringset, char const *string);
 
 
 #endif
