@@ -437,6 +437,60 @@ test_alloc_difference(void)
 }
 
 
+void
+test_is_subset_of(void)
+{
+    struct stringset *set1;
+    int result = stringset_alloc(&set1);
+    assert(0 == result);
+    
+    char const *members1[] = {
+        "watermelon", "mango", "apple", "banana", "strawberry"
+    };
+    int members1_count = sizeof members1 / sizeof members1[0];
+    
+    result = stringset_add_array(set1, members1, members1_count);
+    assert(0 == result);
+    
+    struct stringset *set2;
+    result = stringset_alloc(&set2);
+    assert(0 == result);
+    
+    char const *members2[] = {
+        "mango", "green", "banana"
+    };
+    int members2_count = sizeof members2 / sizeof members2[0];
+    
+    result = stringset_add_array(set2, members2, members2_count);
+    assert(0 == result);
+    
+    struct stringset *set3;
+    result = stringset_alloc(&set3);
+    assert(0 == result);
+    
+    char const *members3[] = {
+        "mango", "watermelon", "banana"
+    };
+    int members3_count = sizeof members3 / sizeof members3[0];
+    
+    result = stringset_add_array(set3, members3, members3_count);
+    assert(0 == result);
+    
+    assert(!stringset_is_subset_of(set1, set2));
+    assert(!stringset_is_subset_of(set1, set3));
+    
+    assert(!stringset_is_subset_of(set2, set1));
+    assert(!stringset_is_subset_of(set2, set3));
+    
+    assert(stringset_is_subset_of(set3, set1));
+    assert(!stringset_is_subset_of(set3, set2));
+    
+    stringset_free(&set1);
+    stringset_free(&set2);
+    stringset_free(&set3);
+}
+
+
 int
 main(int argc, char *argv[])
 {
@@ -453,5 +507,6 @@ main(int argc, char *argv[])
     test_remove_array();
     test_remove_stringset();
     test_alloc_difference();
+    test_is_subset_of();
     return EXIT_SUCCESS;
 }

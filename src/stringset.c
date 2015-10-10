@@ -242,6 +242,18 @@ stringset_free(struct stringset **stringset)
 }
 
 
+bool
+stringset_is_subset_of(struct stringset const *stringset,
+                       struct stringset const *other)
+{
+    for (int i = 0; i < stringset->count; ++i) {
+        if (!stringset_contains(other, stringset->members[i])) return false;
+    }
+    
+    return true;
+}
+
+
 int
 stringset_remove(struct stringset *stringset, char const *string)
 {
