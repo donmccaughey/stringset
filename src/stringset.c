@@ -30,6 +30,30 @@ stringset_alloc(struct stringset **stringset)
 }
 
 
+int
+stringset_alloc_union(struct stringset **stringset,
+                      struct stringset const *first_other,
+                      struct stringset const *second_other)
+{
+    int result = stringset_alloc(stringset);
+    if (-1 == result) return -1;
+    
+    result = stringset_add_stringset(*stringset, first_other);
+    if (-1 == result) {
+        stringset_free(stringset);
+        return -1;
+    }
+    
+    result = stringset_add_stringset(*stringset, second_other);
+    if (-1 == result) {
+        stringset_free(stringset);
+        return -1;
+    }
+    
+    return 0;
+}
+
+
 void
 stringset_free(struct stringset **stringset)
 {
@@ -103,17 +127,17 @@ stringset_add_array(struct stringset *stringset,
 
 int
 stringset_add_stringset(struct stringset *stringset,
-                        struct stringset const *other_stringset)
+                        struct stringset const *other)
 {
-    if (!stringset || !other_stringset) {
+    if (!stringset || !other) {
         errno = EINVAL;
         return -1;
     }
     
-    if (!other_stringset->count) return 0;
+    if (!other->count) return 0;
     
-    for (int i = 0; i < other_stringset->count; ++i) {
-        int result = stringset_add(stringset, other_stringset->members[i]);
+    for (int i = 0; i < other->count; ++i) {
+        int result = stringset_add(stringset, other->members[i]);
         if (-1 == result) return -1;
     }
     

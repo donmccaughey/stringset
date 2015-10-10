@@ -14,6 +14,11 @@ struct stringset {
 int
 stringset_alloc(struct stringset **stringset);
 
+int
+stringset_alloc_union(struct stringset **stringset,
+                      struct stringset const *first_other,
+                      struct stringset const *second_other);
+
 void
 stringset_free(struct stringset **stringset);
 
@@ -27,7 +32,7 @@ stringset_add_array(struct stringset *stringset,
 
 int
 stringset_add_stringset(struct stringset *stringset,
-                        struct stringset const *other_stringset);
+                        struct stringset const *other);
 
 int
 stringset_clear(struct stringset *stringset);
