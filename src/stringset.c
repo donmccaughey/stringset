@@ -93,12 +93,7 @@ stringset_free(struct stringset **stringset)
     if (!stringset) return;
     
     if (*stringset) {
-        if ((*stringset)->members) {
-            for (int i = 0; i < (*stringset)->count; ++i) {
-                free((*stringset)->members[i]);
-            }
-            free((*stringset)->members);
-        }
+        stringset_clear(*stringset);
         free(*stringset);
     }
     
@@ -174,9 +169,11 @@ stringset_clear(struct stringset *stringset)
         return -1;
     }
     
-    free(stringset->members);
+    for (int i = 0; i < stringset->count; ++i) {
+        free(stringset->members[i]);
+    }
     stringset->count = 0;
-    stringset->members = NULL;
+    stringset_compact(stringset);
     
     return 0;
 }
@@ -190,11 +187,15 @@ stringset_compact(struct stringset *stringset)
         return -1;
     }
     
-    size_t new_size = sizeof(char *) * stringset->count;
-    char **new_members = realloc(stringset->members, new_size);
-    if (!new_members) return -1;
-    
-    stringset->members = new_members;
+    if (stringset->count) {
+        size_t new_size = sizeof(char *) * stringset->count;
+        char **new_members = realloc(stringset->members, new_size);
+        if (!new_members) return -1;
+        stringset->members = new_members;
+    } else {
+        free(stringset->members);
+        stringset->members = NULL;
+    }
     
     return 0;
 }
