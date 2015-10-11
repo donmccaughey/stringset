@@ -50,6 +50,15 @@ remove_array(struct stringset *stringset,
 }
 
 
+static void
+swap(struct stringset *first, struct stringset *second)
+{
+    struct stringset temp = *first;
+    *first = *second;
+    *second = temp;
+}
+
+
 struct stringset *
 stringset_alloc(void)
 {
@@ -412,4 +421,28 @@ stringset_remove_stringset(struct stringset *stringset,
     return remove_array(stringset,
                         (char const *const *)other->members,
                         other->count);
+}
+
+
+int
+stringset_retain_array(struct stringset *stringset,
+                       char const *const *array,
+                       int count)
+{
+    if (!stringset || !array || count < 0) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    struct stringset *retained = stringset_alloc_from_array(array, count);
+    if (!retained) return -1;
+    
+    struct stringset *intersection = stringset_alloc_intersection(stringset, retained);
+    stringset_free(retained);
+    if (!intersection) return -1;
+    
+    swap(stringset, intersection);
+    stringset_free(intersection);
+    
+    return 0;
 }

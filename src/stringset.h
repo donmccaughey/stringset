@@ -96,6 +96,13 @@ stringset_remove_array(struct stringset *stringset,
                        char const *const *array,
                        int count);
 
+// Retain only the members of a string set that are present in an array of
+// strings.
+int
+stringset_retain_array(struct stringset *stringset,
+                       char const *const *array,
+                       int count);
+
 
 /********************
  * Union operations *
