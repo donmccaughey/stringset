@@ -434,11 +434,25 @@ stringset_retain_array(struct stringset *stringset,
         return -1;
     }
     
-    struct stringset *retained = stringset_alloc_from_array(array, count);
-    if (!retained) return -1;
+    struct stringset *other = stringset_alloc_from_array(array, count);
+    if (!other) return -1;
     
-    struct stringset *intersection = stringset_alloc_intersection(stringset, retained);
-    stringset_free(retained);
+    int result = stringset_retain_stringset(stringset, other);
+    stringset_free(other);
+    return result;
+}
+
+
+int
+stringset_retain_stringset(struct stringset *stringset,
+                           struct stringset const *other)
+{
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    struct stringset *intersection = stringset_alloc_intersection(stringset, other);
     if (!intersection) return -1;
     
     swap(stringset, intersection);

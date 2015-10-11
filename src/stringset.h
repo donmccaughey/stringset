@@ -132,6 +132,12 @@ struct stringset *
 stringset_alloc_intersection(struct stringset const *first,
                              struct stringset const *second);
 
+// Retain only the members of a string set that are present in another
+// stringset.
+int
+stringset_retain_stringset(struct stringset *stringset,
+                           struct stringset const *other);
+
 
 /*************************
  * Difference operations *
