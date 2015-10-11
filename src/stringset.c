@@ -102,9 +102,50 @@ stringset_alloc_from_array(char const *const *array, int count)
 
 
 struct stringset *
+stringset_alloc_intersection(struct stringset const *first,
+                             struct stringset const *second)
+{
+    if (!first || !second) {
+        errno = EINVAL;
+        return NULL;
+    }
+    
+    struct stringset *stringset = stringset_alloc();
+    if (!stringset) return NULL;
+    
+    struct stringset const *smaller;
+    struct stringset const *larger;
+    if (first->count < second->count) {
+        smaller = first;
+        larger = second;
+    } else {
+        smaller = second;
+        larger = first;
+    }
+    
+    for (int i = 0; i < smaller->count; ++i) {
+        if (stringset_contains(larger, smaller->members[i])) {
+            int result = stringset_add(stringset, smaller->members[i]);
+            if (-1 == result) {
+                stringset_free(stringset);
+                return NULL;
+            }
+        }
+    }
+    
+    return stringset;
+}
+
+
+struct stringset *
 stringset_alloc_union(struct stringset const *first,
                       struct stringset const *second)
 {
+    if (!first || !second) {
+        errno = EINVAL;
+        return NULL;
+    }
+    
     struct stringset *stringset = stringset_alloc();
     if (!stringset) return NULL;
     
