@@ -19,7 +19,8 @@ struct stringset {
 struct stringset *
 stringset_alloc(void);
 
-// Allocate a set from an array.
+// Allocate a string set from an array.  Strings in the array are copied when
+// added to the resulting string set.
 struct stringset *
 stringset_alloc_from_array(char const *const *array, int count);
 
@@ -62,13 +63,14 @@ stringset_is_superset_of(struct stringset const *stringset,
  * Insert and delete members *
  *****************************/
 
-// Add a string to a string set.  If the string is not a member, a copy is made
+// Add a string to a string set.  If the string is not a member, it is copied
 // and added to the string set.
 int
 stringset_add(struct stringset *stringset, char const *string);
 
 // Add an array of strings to a string set.  Each string that is not a member
-// is copied and added to the string set.
+// is copied and added to the string set.  The resulting `stringset' is the
+// union of the original `stringset' with the string set formed by the array.
 int
 stringset_add_array(struct stringset *stringset,
                     char const *const *array,
@@ -88,7 +90,9 @@ stringset_compact(struct stringset *stringset);
 int
 stringset_remove(struct stringset *stringset, char const *string);
 
-// Remove an array of strings from a string set.
+// Remove an array of strings from a string set.  The resulting `stringset'
+// is the difference between the orignal `stringset' and the string set formed
+// by the array.
 //
 // Call `stringset_compact()' after removing members to free unused memory.
 int
@@ -97,7 +101,8 @@ stringset_remove_array(struct stringset *stringset,
                        int count);
 
 // Retain only the members of a string set that are present in an array of
-// strings.
+// strings.  The resulting `stringset' is the intersection of the original
+// `stringset' and the string set formed by the array.
 int
 stringset_retain_array(struct stringset *stringset,
                        char const *const *array,
@@ -109,13 +114,13 @@ stringset_retain_array(struct stringset *stringset,
  ********************/
 
 // Allocate a string set that is the union of two string sets.  The allocated
-// string set will contain all members of `first' and `second'.
+// string set contains all members of `first' and `second'.
 struct stringset *
 stringset_alloc_union(struct stringset const *first,
                       struct stringset const *second);
 
 // Add all members of another string set to a string set.  The resulting
-// `stringset' will be the union of the original `stringset' and `other'.
+// `stringset' is the union of the original `stringset' and `other'.
 int
 stringset_add_stringset(struct stringset *stringset,
                         struct stringset const *other);
@@ -126,14 +131,15 @@ stringset_add_stringset(struct stringset *stringset,
  ***************************/
 
 // Allocate a string set that is the intersection of two string sets.  The
-// allocated string set will contain only members of `first' and `second' that
-// are present in both.
+// allocated string set contains only members of `first' and `second' that are
+// present in both.
 struct stringset *
 stringset_alloc_intersection(struct stringset const *first,
                              struct stringset const *second);
 
-// Retain only the members of a string set that are present in another
-// stringset.
+// Retain only the members of a string set that are present in another string
+// set.  The resulting `stringset' is the intersection of the original
+// `stringset' and `other'.
 int
 stringset_retain_stringset(struct stringset *stringset,
                            struct stringset const *other);
@@ -144,14 +150,14 @@ stringset_retain_stringset(struct stringset *stringset,
  *************************/
 
 // Allocate a string set that is the difference of two string sets.  The
-// allocated string set will contain only members of `first' that are not
-// members of `second'.
+// allocated string set contains only members of `first' that are not members
+// of `second'.
 struct stringset *
 stringset_alloc_difference(struct stringset const *first,
                            struct stringset const *second);
 
 // Remove all members of another string set from a string set.  The resulting
-// `stringset' will be the difference of the original `stringset' and `other'.
+// `stringset' is the difference of the original `stringset' and `other'.
 int
 stringset_remove_stringset(struct stringset *stringset,
                            struct stringset const *other);
