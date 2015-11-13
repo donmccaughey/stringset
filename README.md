@@ -14,9 +14,8 @@ Simple Example
 Here is a short code snippet that allocates a `stringset` and adds some strings.
 
     // allocate a set
-    struct stringset *set;
-    int result = stringset_alloc(&set);
-    assert(0 == result);
+    struct stringset *set = stringset_alloc(&set);
+    assert(set);
 
 
     // add some strings
