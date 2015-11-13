@@ -350,6 +350,10 @@ stringset_is_subset_of(struct stringset const *stringset,
         return false;
     }
     
+    if (stringset == other) return true;
+    
+    if (stringset->count > other->count) return false;
+    
     for (int i = 0; i < stringset->count; ++i) {
         if (!stringset_contains(other, stringset->members[i])) return false;
     }

@@ -27,6 +27,13 @@ test_is_superset_of(void)
     struct stringset *set3 = stringset_alloc_from_array(members3, members3_count);
     assert(set3);
     
+    char const *members3_dup[] = {
+        "banana", "mango", "watermelon"
+    };
+    int members3_dup_count = sizeof members3_dup / sizeof members3_dup[0];
+    struct stringset *set3_dup = stringset_alloc_from_array(members3_dup, members3_dup_count);
+    assert(set3_dup);
+    
     assert(!stringset_is_superset_of(set1, set2));
     assert(stringset_is_superset_of(set1, set3));
     
@@ -35,6 +42,10 @@ test_is_superset_of(void)
     
     assert(!stringset_is_superset_of(set3, set1));
     assert(!stringset_is_superset_of(set3, set2));
+    
+    assert(stringset_is_superset_of(set3, set3));
+    assert(stringset_is_superset_of(set3, set3_dup));
+    assert(stringset_is_superset_of(set3_dup, set3));
     
     struct stringset *empty_set = stringset_alloc();
     assert(empty_set);
@@ -51,5 +62,6 @@ test_is_superset_of(void)
     stringset_free(set1);
     stringset_free(set2);
     stringset_free(set3);
+    stringset_free(set3_dup);
     stringset_free(empty_set);
 }
