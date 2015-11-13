@@ -27,11 +27,7 @@ test_is_proper_subset_of(void)
     struct stringset *set3 = stringset_alloc_from_array(members3, members3_count);
     assert(set3);
     
-    char const *members3_dup[] = {
-        "banana", "mango", "watermelon"
-    };
-    int members3_dup_count = sizeof members3_dup / sizeof members3_dup[0];
-    struct stringset *set3_dup = stringset_alloc_from_array(members3_dup, members3_dup_count);
+    struct stringset *set3_dup = stringset_alloc_from_stringset(set3);
     assert(set3_dup);
     
     assert(!stringset_is_proper_subset_of(set1, set2));

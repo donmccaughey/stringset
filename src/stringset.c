@@ -110,6 +110,10 @@ stringset_alloc_from_array(char const *const *array, int count)
 }
 
 
+extern inline struct stringset *
+stringset_alloc_from_stringset(struct stringset const *stringset);
+
+
 struct stringset *
 stringset_alloc_intersection(struct stringset const *first,
                              struct stringset const *second)

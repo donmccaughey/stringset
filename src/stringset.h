@@ -24,6 +24,15 @@ stringset_alloc(void);
 struct stringset *
 stringset_alloc_from_array(char const *const *array, int count);
 
+// Allocate a string set from a string set.  Strings in the string set are
+// copied when added to the resulting string set.
+inline struct stringset *
+stringset_alloc_from_stringset(struct stringset const *stringset)
+{
+    return stringset_alloc_from_array((char const **)stringset->members,
+                                      stringset->count);
+}
+
 // Delete all members and free an allocated string set.
 void
 stringset_free(struct stringset *stringset);
