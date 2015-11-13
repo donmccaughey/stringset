@@ -110,8 +110,17 @@ stringset_alloc_from_array(char const *const *array, int count)
 }
 
 
-extern inline struct stringset *
-stringset_alloc_from_stringset(struct stringset const *stringset);
+struct stringset *
+stringset_alloc_from_stringset(struct stringset const *stringset)
+{
+    if (!stringset) {
+        errno = EINVAL;
+        return NULL;
+    }
+    
+    return stringset_alloc_from_array((char const **)stringset->members,
+                                      stringset->count);
+}
 
 
 struct stringset *
