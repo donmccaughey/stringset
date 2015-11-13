@@ -141,6 +141,12 @@ void
 test_is_equal_to(void);
 
 void
+test_is_proper_subset_of(void);
+
+void
+test_is_proper_superset_of(void);
+
+void
 test_is_subset_of(void);
 
 void
@@ -170,15 +176,17 @@ main(int argc, char *argv[])
     test_add_same_member_multiple_times();
     test_add_one_hundred_members();
     test_members_are_sorted();
-    test_clear();
-    test_add_array();
     
+    test_add_array();
     test_add_stringset();
     test_alloc_difference();
     test_alloc_intersection();
     test_alloc_union();
+    test_clear();
     test_is_disjoint_from();
     test_is_equal_to();
+    test_is_proper_subset_of();
+    test_is_proper_superset_of();
     test_is_subset_of();
     test_is_superset_of();
     test_remove();

@@ -342,6 +342,33 @@ stringset_is_equal_to(struct stringset const *stringset,
 
 
 bool
+stringset_is_proper_subset_of(struct stringset const *stringset,
+                              struct stringset const *other)
+{
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return false;
+    }
+    
+    if (stringset == other) return false;
+    if (stringset->count >= other->count) return false;
+    
+    for (int i = 0; i < stringset->count; ++i) {
+        if (!stringset_contains(other, stringset->members[i])) return false;
+    }
+    return true;
+}
+
+
+bool
+stringset_is_proper_superset_of(struct stringset const *stringset,
+                                struct stringset const *other)
+{
+    return stringset_is_proper_subset_of(other, stringset);
+}
+
+
+bool
 stringset_is_subset_of(struct stringset const *stringset,
                        struct stringset const *other)
 {
@@ -351,13 +378,11 @@ stringset_is_subset_of(struct stringset const *stringset,
     }
     
     if (stringset == other) return true;
-    
     if (stringset->count > other->count) return false;
     
     for (int i = 0; i < stringset->count; ++i) {
         if (!stringset_contains(other, stringset->members[i])) return false;
     }
-    
     return true;
 }
 

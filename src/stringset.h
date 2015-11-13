@@ -48,6 +48,16 @@ bool
 stringset_is_equal_to(struct stringset const *stringset,
                       struct stringset const *other);
 
+// Check if a string set is a proper subset of another string set.
+bool
+stringset_is_proper_subset_of(struct stringset const *stringset,
+                              struct stringset const *other);
+
+// Check if a string set is a proper superset of another string set.
+bool
+stringset_is_proper_superset_of(struct stringset const *stringset,
+                                struct stringset const *other);
+
 // Check if a string set is a subset of another string set.
 bool
 stringset_is_subset_of(struct stringset const *stringset,
