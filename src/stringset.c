@@ -160,6 +160,37 @@ stringset_alloc_intersection(struct stringset const *first,
 
 
 struct stringset *
+stringset_alloc_symmetric_difference(struct stringset const *first,
+                                     struct stringset const *second)
+{
+    struct stringset *stringset = stringset_alloc();
+    if (!stringset) return NULL;
+    
+    for (int i = 0; i < first->count; ++i) {
+        if (!stringset_contains(second, first->members[i])) {
+            int result = stringset_add(stringset, first->members[i]);
+            if (-1 == result) {
+                stringset_free(stringset);
+                return NULL;
+            }
+        }
+    }
+    
+    for (int i = 0; i < second->count; ++i) {
+        if (!stringset_contains(first, second->members[i])) {
+            int result = stringset_add(stringset, second->members[i]);
+            if (-1 == result) {
+                stringset_free(stringset);
+                return NULL;
+            }
+        }
+    }
+    
+    return stringset;
+}
+
+
+struct stringset *
 stringset_alloc_union(struct stringset const *first,
                       struct stringset const *second)
 {
@@ -244,6 +275,29 @@ stringset_add_stringset(struct stringset *stringset,
     return add_array(stringset,
                      (char const *const *)other->members,
                      other->count);
+}
+
+
+int
+stringset_add_stringset_remove_common(struct stringset *stringset,
+                                      struct stringset const *other)
+{
+    if (!stringset || !other) {
+        errno = EINVAL;
+        return -1;
+    }
+    
+    for (int i = 0; i < other->count; ++i) {
+        if (stringset_contains(stringset, other->members[i])) {
+            int result = stringset_remove(stringset, other->members[i]);
+            if (-1 == result) return -1;
+        } else {
+            int result = stringset_add(stringset, other->members[i]);
+            if (-1 == result) return -1;
+        }
+    }
+    
+    return 0;
 }
 
 

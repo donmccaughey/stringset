@@ -123,10 +123,16 @@ void
 test_add_stringset(void);
 
 void
+test_add_stringset_remove_common(void);
+
+void
 test_alloc_difference(void);
 
 void
 test_alloc_intersection(void);
+
+void
+test_alloc_symmetric_difference(void);
 
 void
 test_alloc_union(void);
@@ -179,8 +185,10 @@ main(int argc, char *argv[])
     
     test_add_array();
     test_add_stringset();
+    test_add_stringset_remove_common();
     test_alloc_difference();
     test_alloc_intersection();
+    test_alloc_symmetric_difference();
     test_alloc_union();
     test_clear();
     test_is_disjoint_from();

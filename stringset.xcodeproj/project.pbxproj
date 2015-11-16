@@ -22,6 +22,8 @@
 		D44FA3D11BF482C5006F7CDB /* test_clear.c in Sources */ = {isa = PBXBuildFile; fileRef = D44FA3D01BF482C5006F7CDB /* test_clear.c */; };
 		D44FA3D31BF5CCFE006F7CDB /* test_is_proper_subset_of.c in Sources */ = {isa = PBXBuildFile; fileRef = D44FA3D21BF5CCFE006F7CDB /* test_is_proper_subset_of.c */; };
 		D44FA3D51BF5CEFF006F7CDB /* test_is_proper_superset_of.c in Sources */ = {isa = PBXBuildFile; fileRef = D44FA3D41BF5CEFF006F7CDB /* test_is_proper_superset_of.c */; };
+		D44FA3D71BF98B69006F7CDB /* test_alloc_symmetric_difference.c in Sources */ = {isa = PBXBuildFile; fileRef = D44FA3D61BF98B69006F7CDB /* test_alloc_symmetric_difference.c */; };
+		D44FA3D91BF98F0E006F7CDB /* test_add_stringset_remove_common.c in Sources */ = {isa = PBXBuildFile; fileRef = D44FA3D81BF98F0E006F7CDB /* test_add_stringset_remove_common.c */; };
 		D46467711BCB20A000AC0EFE /* test_retain_stringset.c in Sources */ = {isa = PBXBuildFile; fileRef = D46467701BCB20A000AC0EFE /* test_retain_stringset.c */; };
 		D46467731BCB20F300AC0EFE /* test_retain_array.c in Sources */ = {isa = PBXBuildFile; fileRef = D46467721BCB20F300AC0EFE /* test_retain_array.c */; };
 		D46467751BCB212E00AC0EFE /* test_alloc_intersection.c in Sources */ = {isa = PBXBuildFile; fileRef = D46467741BCB212E00AC0EFE /* test_alloc_intersection.c */; };
@@ -71,6 +73,8 @@
 		D44FA3D01BF482C5006F7CDB /* test_clear.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_clear.c; sourceTree = "<group>"; };
 		D44FA3D21BF5CCFE006F7CDB /* test_is_proper_subset_of.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_is_proper_subset_of.c; sourceTree = "<group>"; };
 		D44FA3D41BF5CEFF006F7CDB /* test_is_proper_superset_of.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_is_proper_superset_of.c; sourceTree = "<group>"; };
+		D44FA3D61BF98B69006F7CDB /* test_alloc_symmetric_difference.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_alloc_symmetric_difference.c; sourceTree = "<group>"; };
+		D44FA3D81BF98F0E006F7CDB /* test_add_stringset_remove_common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_add_stringset_remove_common.c; sourceTree = "<group>"; };
 		D46467701BCB20A000AC0EFE /* test_retain_stringset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_retain_stringset.c; sourceTree = "<group>"; };
 		D46467721BCB20F300AC0EFE /* test_retain_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_retain_array.c; sourceTree = "<group>"; };
 		D46467741BCB212E00AC0EFE /* test_alloc_intersection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_alloc_intersection.c; sourceTree = "<group>"; };
@@ -134,8 +138,10 @@
 				D44FA3D01BF482C5006F7CDB /* test_clear.c */,
 				D44FA3CE1BF4828F006F7CDB /* test_add_array.c */,
 				D44FA3CC1BF48245006F7CDB /* test_add_stringset.c */,
+				D44FA3D81BF98F0E006F7CDB /* test_add_stringset_remove_common.c */,
 				D44FA3C41BF480BC006F7CDB /* test_alloc_difference.c */,
 				D46467741BCB212E00AC0EFE /* test_alloc_intersection.c */,
+				D44FA3D61BF98B69006F7CDB /* test_alloc_symmetric_difference.c */,
 				D44FA3CA1BF481D7006F7CDB /* test_alloc_union.c */,
 				D46467761BCB217400AC0EFE /* test_is_disjoint_from.c */,
 				D46467781BCB21F100AC0EFE /* test_is_equal_to.c */,
@@ -258,10 +264,12 @@
 				D44FA3C91BF48172006F7CDB /* test_remove_array.c in Sources */,
 				D44FA3CF1BF4828F006F7CDB /* test_add_array.c in Sources */,
 				D46467731BCB20F300AC0EFE /* test_retain_array.c in Sources */,
+				D44FA3D71BF98B69006F7CDB /* test_alloc_symmetric_difference.c in Sources */,
 				D44FA3C11BF47FBC006F7CDB /* test_remove.c in Sources */,
 				D46467751BCB212E00AC0EFE /* test_alloc_intersection.c in Sources */,
 				D46467771BCB217400AC0EFE /* test_is_disjoint_from.c in Sources */,
 				D44FA3C71BF48107006F7CDB /* test_remove_stringset.c in Sources */,
+				D44FA3D91BF98F0E006F7CDB /* test_add_stringset_remove_common.c in Sources */,
 				D44FA3CB1BF481D7006F7CDB /* test_alloc_union.c in Sources */,
 				D428171D1BC73EFD0097BED1 /* main.c in Sources */,
 				D44FA3CD1BF48245006F7CDB /* test_add_stringset.c in Sources */,

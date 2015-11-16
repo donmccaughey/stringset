@@ -178,4 +178,23 @@ stringset_remove_stringset(struct stringset *stringset,
                            struct stringset const *other);
 
 
+/***********************************
+ * Symmetric difference operations *
+ **********************************/
+
+// Allocate a string set that is the symmetric difference of two string sets.
+// The allocated string set contains only members `first' and `second' that are
+// not present in both.
+struct stringset *
+stringset_alloc_symmetric_difference(struct stringset const *first,
+                                     struct stringset const *second);
+
+// Add members present only in another string set to a string set while
+// removing members that are present in both.  The resulting `stringset' is the
+// symmetric difference of the original `stringset' and `other'.
+int
+stringset_add_stringset_remove_common(struct stringset *stringset,
+                                      struct stringset const *other);
+
+
 #endif
